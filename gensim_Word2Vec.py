@@ -15,19 +15,19 @@ def preprocess_text(text):
     return tokens
 
 # Processing the text
-tokenized_text = [preprocess_text(text) for text in texts] 
+tokenized_text = [preprocess_text(text) for text in texts[:100]] # Limiting to 100 texts to reduce processing time
 
 # Training the WordVec model
 model = Word2Vec(sentences=tokenized_text, vector_size=100, window=5, min_count=1, workers=4, sg=0)  # Input data, Size of word vector, context window size, minimum word frequency, number of cpu threads, 0 for CBOW, 1 for skip-gram
 
 # model.save("word2vec.model")  # Saving the model
-# print("Vocabulary:", list(model.wv.key_to_index.keys()))
+# print("Vocabulary:", list(model.wv.key_to_index.keys())) # Debugging/Finding the vocabulary
 
-vector = model.wv['filenames']  
-print("Vector for filenames: ", vector)  
+vector = model.wv['beginning']  
+print("Vector for beginning: ", vector)  
 
-similar_to_computers = model.wv.most_similar('filenames')
-print("Words similar to filenames: ", similar_to_computers)
+similar_to_computers = model.wv.most_similar('beginning')
+print("Words similar to beginning: ", similar_to_computers)
 
-similarity = model.wv.similarity('data', 'target')
-print("Similarity between data and target: ", similarity) 
+similarity = model.wv.similarity('sunday', 'friday')
+print("Similarity between sunday and friday: ", similarity) 
